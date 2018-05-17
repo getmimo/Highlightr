@@ -87,6 +87,19 @@ open class Highlightr
         return true
     }
     
+    @discardableResult
+    open func setTheme(to name: String, in bundle: Bundle = Bundle(for: Highlightr.self)) -> Bool
+    {
+        guard let defTheme = bundle.path(forResource: name+".min", ofType: "css") else
+        {
+            return false
+        }
+        let themeString = try! String.init(contentsOfFile: defTheme)
+        theme =  Theme(themeString: themeString)
+        
+        return true
+    }
+    
     /**
      Takes a String and returns a NSAttributedString with the given language highlighted.
      
