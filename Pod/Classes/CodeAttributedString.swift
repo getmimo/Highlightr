@@ -108,12 +108,7 @@ open class CodeAttributedString : NSTextStorage
     open override func replaceCharacters(in range: NSRange, with str: String)
     {
         stringStorage.replaceCharacters(in: range, with: str)
-        #if os(iOS) || os(watchOS) || os(tvOS)
-        let actions = NSTextStorage.EditActions.editedCharacters
-        #else
-        let actions = NSTextStorageEditActions.editedCharacters
-        #endif
-        self.edited(actions, range: range, changeInLength: (str as NSString).length - range.length)
+        self.edited(.editedCharacters, range: range, changeInLength: (str as NSString).length - range.length)
     }
     
     /**
@@ -125,12 +120,7 @@ open class CodeAttributedString : NSTextStorage
     open override func setAttributes(_ attrs: [NSAttributedString.Key : Any]?, range: NSRange)
     {
         stringStorage.setAttributes(attrs, range: range)
-        #if os(iOS) || os(watchOS) || os(tvOS)
-        let actions = NSTextStorage.EditActions.editedCharacters
-        #else
-        let actions = NSTextStorageEditActions.editedCharacters
-        #endif
-        self.edited(actions, range: range, changeInLength: 0)
+        self.edited(.editedCharacters, range: range, changeInLength: 0)
     }
     
     /// Called internally everytime the string is modified.
@@ -191,12 +181,7 @@ open class CodeAttributedString : NSTextStorage
                     self.stringStorage.setAttributes(attrs, range: fixedRange)
                 })
                 self.endEditing()
-                #if os(iOS) || os(watchOS) || os(tvOS)
-                let actions = NSTextStorage.EditActions.editedCharacters
-                #else
-                let actions = NSTextStorageEditActions.editedCharacters
-                #endif
-                self.edited(actions, range: range, changeInLength: 0)
+                self.edited(.editedCharacters, range: range, changeInLength: 0)
                 self.highlightDelegate?.didHighlight?(range, success: true)
             })
             
