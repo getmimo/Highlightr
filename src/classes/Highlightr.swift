@@ -83,6 +83,19 @@ open class Highlightr
      
      - returns: true if it was possible to set the given theme, false otherwise
      */
+    
+    public func setCustomTheme(with cssContent: String) -> Bool {
+        theme = Theme(themeString: cssContent)
+        return true
+    }
+    
+    /**
+     Set the theme to use for highlighting.
+     
+     - parameter to: Theme name
+     
+     - returns: true if it was possible to set the given theme, false otherwise
+     */
     @discardableResult
     open func setTheme(to name: String) -> Bool
     {
@@ -91,7 +104,7 @@ open class Highlightr
             return false
         }
         guard let themeString = try? String.init(contentsOfFile: defTheme) else { return false }
-        theme =  Theme(themeString: themeString)
+        theme = Theme(themeString: themeString)
 
         
         return true
